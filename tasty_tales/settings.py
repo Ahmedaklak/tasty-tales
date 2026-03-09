@@ -30,7 +30,7 @@ SECRET_KEY = os.environ.get('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost', 'tasty-tales.onrender.com', 'https://tasty-tales-01-5fd3b9eee72d.herokuapp.com/']
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost', 'tasty-tales.onrender.com', 'tasty-tales-01-5fd3b9eee72d.herokuapp.com']
 
 
 # Application definition
