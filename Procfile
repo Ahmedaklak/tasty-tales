@@ -1,1 +1,1 @@
-web: gunicorn tasty_tales.wsgi:application
+web: gunicorn tasty_tales.wsgi
