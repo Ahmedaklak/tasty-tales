@@ -7,15 +7,15 @@ urlpatterns = [
         views.RecipeList.as_view(),
         name='home'
     ),
+        path(
+        'recipe/new/',
+        views.RecipeCreate.as_view(),
+        name='recipe_create'
+    ),
     path(
         'recipe/<slug:slug>/',
         views.RecipeDetail.as_view(),
         name='recipe_detail'
-    ),
-    path(
-        'recipe/new/',
-        views.RecipeCreate.as_view(),
-        name='recipe_create'
     ),
     path(
         'recipe/<slug:slug>/edit/',
