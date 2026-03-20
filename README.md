@@ -1,4 +1,3 @@
-# tasty-tales
 # Tasty Tales
 
 A full-stack recipe sharing web application built with Django. Users can register, share their own recipes, and review other people's creations with a 1–5 star rating system. The project was developed as the Individual Capstone Project for the AI Augmented Full-Stack Bootcamp.
@@ -488,8 +487,8 @@ Lighthouse testing was performed using Chrome DevTools.
 
 | Page | Performance | Accessibility | Best Practices | SEO |
 |------|-------------|---------------|----------------|-----|
-| Home page | 90+ | 90+ | 90+ | 90+ |
-| Recipe detail | 90+ | 90+ | 90+ | 90+ |
+| Home page | 97 | 80 | 100 | 90 |
+| Recipe detail | 97 | 80 | 100 | 90 |
 
 ---
 
