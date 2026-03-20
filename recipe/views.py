@@ -1,9 +1,11 @@
 from django.views import generic
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
-from django.urls import reverse_lazy
-from .models import Recipe
-from .forms import RecipeForm
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import get_object_or_404, redirect
+from django.urls import reverse_lazy, reverse
+from .models import Recipe, Review
+from .forms import RecipeForm, ReviewForm
 
 
 class RecipeList(generic.ListView):
@@ -17,11 +19,23 @@ class RecipeList(generic.ListView):
 
 
 class RecipeDetail(generic.DetailView):
-    """Display a single recipe's full details."""
+    """Display a single recipe's full details and its reviews."""
 
     model = Recipe
     template_name = 'recipe/recipe_detail.html'
     context_object_name = 'recipe'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['reviews'] = self.object.reviews.all()
+        # Only show the form if user is logged in and hasn't already reviewed
+        if self.request.user.is_authenticated:
+            has_reviewed = self.object.reviews.filter(
+                author=self.request.user
+            ).exists()
+            if not has_reviewed:
+                context['review_form'] = ReviewForm()
+        return context
 
 
 class RecipeCreate(LoginRequiredMixin, generic.CreateView):
@@ -81,3 +95,46 @@ class RecipeDelete(LoginRequiredMixin, UserPassesTestMixin,
             self.request, 'Recipe deleted successfully!'
         )
         return super().delete(request, *args, **kwargs)
+
+
+@login_required
+def review_create(request, slug):
+    """Allow logged-in users to submit a review for a recipe."""
+
+    recipe = get_object_or_404(Recipe, slug=slug)
+
+    # Prevent duplicate reviews
+    if Review.objects.filter(recipe=recipe, author=request.user).exists():
+        messages.warning(request, 'You have already reviewed this recipe.')
+        return redirect(reverse('recipe_detail', kwargs={'slug': slug}))
+
+    if request.method == 'POST':
+        form = ReviewForm(request.POST)
+        if form.is_valid():
+            review = form.save(commit=False)
+            review.recipe = recipe
+            review.author = request.user
+            review.save()
+            messages.success(request, 'Review submitted successfully!')
+        else:
+            messages.error(request, 'Error submitting review. Please check your input.')
+
+    return redirect(reverse('recipe_detail', kwargs={'slug': slug}))
+
+
+@login_required
+def review_delete(request, slug, review_id):
+    """Allow review authors to delete their own review."""
+
+    review = get_object_or_404(Review, id=review_id)
+
+    # Only the review author can delete it
+    if request.user != review.author:
+        messages.error(request, 'You can only delete your own reviews.')
+        return redirect(reverse('recipe_detail', kwargs={'slug': slug}))
+
+    if request.method == 'POST':
+        review.delete()
+        messages.success(request, 'Review deleted successfully!')
+
+    return redirect(reverse('recipe_detail', kwargs={'slug': slug}))

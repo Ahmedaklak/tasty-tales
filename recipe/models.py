@@ -48,3 +48,42 @@ class Recipe(models.Model):
         if not self.slug:
             self.slug = slugify(self.title)
         super().save(*args, **kwargs)
+
+
+class Review(models.Model):
+    """Model representing a user review/rating for a recipe."""
+
+    RATING_CHOICES = [
+        (1, '1 - Poor'),
+        (2, '2 - Fair'),
+        (3, '3 - Good'),
+        (4, '4 - Very Good'),
+        (5, '5 - Excellent'),
+    ]
+
+    recipe = models.ForeignKey(
+        Recipe,
+        on_delete=models.CASCADE,
+        related_name='reviews'
+    )
+    author = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        related_name='reviews'
+    )
+    rating = models.PositiveIntegerField(
+        choices=RATING_CHOICES,
+        help_text='Rate the recipe from 1 to 5'
+    )
+    body = models.TextField(
+        help_text='Write your review here'
+    )
+    created_on = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ['-created_on']
+        # Prevent a user from reviewing the same recipe twice
+        unique_together = ('recipe', 'author')
+
+    def __str__(self):
+        return f'{self.author.username} rated {self.recipe.title} - {self.rating}/5'
