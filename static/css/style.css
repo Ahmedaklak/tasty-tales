@@ -1,27 +1,325 @@
+/* ===== CUSTOM STYLES FOR TASTY TALES ===== */
+/* Matches the wireframe design language */
+
+/* ---------- Colour Variables ---------- */
+:root {
+    --red: #e63946;
+    --navy: #1a1a2e;
+    --dark: #2c2c2c;
+    --orange: #f4a261;
+    --green: #2d6a4f;
+    --light-bg: #fafafa;
+    --text: #333;
+    --text-muted: #888;
+}
+
+/* ---------- Global ---------- */
 body {
     display: flex;
     flex-direction: column;
     min-height: 100vh;
+    background: #f8f8f8;
+    color: var(--text);
 }
 
 main {
     flex: 1;
 }
 
+h1, h2, h3 {
+    color: var(--navy);
+}
+
+a {
+    color: var(--red);
+}
+
+a:hover {
+    color: #c1121f;
+}
+
+/* ---------- Navbar ---------- */
+.navbar {
+    background: var(--dark) !important;
+    padding: 14px 0;
+}
+
+.navbar-brand {
+    background: var(--red);
+    color: white !important;
+    padding: 4px 14px;
+    border-radius: 4px;
+    font-size: 16px;
+    font-weight: 700;
+}
+
+.navbar-brand:hover {
+    color: white !important;
+    opacity: 0.9;
+}
+
+.nav-link {
+    color: #aaa !important;
+    font-size: 14px;
+}
+
+.nav-link:hover {
+    color: white !important;
+}
+
+.nav-link.btn-add-recipe {
+    background: var(--red);
+    color: white !important;
+    padding: 5px 14px;
+    border-radius: 4px;
+    font-weight: 600;
+}
+
+.nav-link.btn-add-recipe:hover {
+    background: #c1121f;
+}
+
+/* ---------- Recipe Cards ---------- */
 .card {
-    transition: transform 0.2s;
+    border: 1.5px solid #ddd;
+    border-radius: 8px;
+    background: white;
+    transition: transform 0.2s, box-shadow 0.2s;
 }
 
 .card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transform: translateY(-4px);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+}
+
+.card-body {
+    padding: 20px;
 }
 
 .card-title a {
     text-decoration: none;
-    color: #333;
+    color: var(--navy);
+    font-weight: 700;
 }
 
 .card-title a:hover {
-    color: #0d6efd;
+    color: var(--red);
+}
+
+.card-text {
+    font-size: 14px;
+    color: #666;
+    line-height: 1.5;
+}
+
+/* ---------- Buttons ---------- */
+.btn-primary {
+    background: var(--navy) !important;
+    border-color: var(--navy) !important;
+    font-weight: 600;
+}
+
+.btn-primary:hover {
+    background: #12121f !important;
+    border-color: #12121f !important;
+}
+
+.btn-warning {
+    background: var(--orange) !important;
+    border-color: var(--orange) !important;
+    color: white !important;
+    font-weight: 600;
+}
+
+.btn-warning:hover {
+    background: #e08c3a !important;
+    border-color: #e08c3a !important;
+}
+
+.btn-danger {
+    background: var(--red) !important;
+    border-color: var(--red) !important;
+    font-weight: 600;
+}
+
+.btn-danger:hover {
+    background: #c1121f !important;
+    border-color: #c1121f !important;
+}
+
+.btn-secondary {
+    background: #e8e8e8 !important;
+    border-color: #e8e8e8 !important;
+    color: #555 !important;
+    font-weight: 600;
+}
+
+.btn-secondary:hover {
+    background: #d5d5d5 !important;
+    border-color: #d5d5d5 !important;
+}
+
+.btn-success {
+    background: var(--green) !important;
+    border-color: var(--green) !important;
+    font-weight: 600;
+}
+
+/* ---------- Recipe Detail ---------- */
+.recipe-title {
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--navy);
+    margin-bottom: 8px;
+}
+
+.recipe-meta {
+    font-size: 14px;
+    color: var(--text-muted);
+    margin-bottom: 16px;
+}
+
+.recipe-section-heading {
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 12px;
+    margin-top: 24px;
+}
+
+.recipe-text-block {
+    background: #f5f5f5;
+    border-radius: 6px;
+    padding: 16px;
+    margin-bottom: 16px;
+    line-height: 1.7;
+}
+
+/* ---------- Reviews ---------- */
+.review-card {
+    border: 1.5px solid #ddd;
+    border-radius: 8px;
+    padding: 16px;
+    margin-bottom: 12px;
+    background: white;
+}
+
+.review-stars {
+    color: var(--orange);
+    font-size: 14px;
+    letter-spacing: 1px;
+}
+
+.review-author {
+    font-weight: 700;
+    color: var(--text);
+    font-size: 14px;
+}
+
+.review-date {
+    font-size: 12px;
+    color: #aaa;
+}
+
+.review-body {
+    font-size: 14px;
+    color: #555;
+    line-height: 1.5;
+    margin-top: 8px;
+}
+
+.review-form-card {
+    border: 1.5px solid #ddd;
+    border-radius: 8px;
+    background: white;
+}
+
+/* ---------- Delete Confirmation ---------- */
+.confirm-box {
+    border: 2px solid var(--red);
+    border-radius: 8px;
+    padding: 40px;
+    text-align: center;
+    max-width: 450px;
+    margin: 40px auto;
+    background: #fff5f5;
+}
+
+.confirm-box .confirm-icon {
+    font-size: 48px;
+    margin-bottom: 12px;
+}
+
+.confirm-box p {
+    color: var(--text-muted);
+    font-size: 14px;
+}
+
+/* ---------- Auth Pages ---------- */
+.auth-card {
+    max-width: 480px;
+}
+
+.auth-link {
+    font-size: 14px;
+    color: var(--text-muted);
+}
+
+.auth-link a {
+    color: var(--red);
+    font-weight: 600;
+}
+
+/* ---------- Logout Confirmation ---------- */
+.logout-box {
+    border: 2px solid var(--navy);
+    border-radius: 8px;
+    padding: 40px;
+    text-align: center;
+    max-width: 450px;
+    margin: 40px auto;
+    background: #f5f5ff;
+}
+
+/* ---------- Alerts ---------- */
+.alert {
+    border-radius: 6px;
+    font-size: 14px;
+}
+
+/* ---------- Forms ---------- */
+.form-control, .form-select {
+    border: 1.5px solid #ddd;
+    border-radius: 6px;
+}
+
+.form-control:focus, .form-select:focus {
+    border-color: var(--navy);
+    box-shadow: 0 0 0 0.2rem rgba(26, 26, 46, 0.15);
+}
+
+/* ---------- Pagination ---------- */
+.page-link {
+    color: var(--navy);
+    border: 1.5px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+.page-item.active .page-link {
+    background: var(--navy);
+    border-color: var(--navy);
+}
+
+/* ---------- Footer ---------- */
+footer {
+    background: var(--dark);
+    font-size: 14px;
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 768px) {
+    .recipe-title {
+        font-size: 22px;
+    }
 }
