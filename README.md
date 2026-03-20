@@ -599,7 +599,7 @@ The `release` phase in the Procfile runs `python manage.py migrate` on every dep
 2. Click "Code" → copy the HTTPS URL.
 3. Open your terminal and run:
    ```bash
-   git clone https://github.com/YOUR-USERNAME/tasty-tales.git
+   git clone https://github.com/Ahmedaklak/tasty-tales.git
    cd tasty-tales
    ```
 4. Create a virtual environment and install dependencies:
