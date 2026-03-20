@@ -7,6 +7,8 @@ A full-stack recipe sharing web application built with Django. Users can registe
 
 **Repository:** [https://github.com/YOUR-USERNAME/tasty-tales](https://github.com/Ahmedaklak/tasty-tales)
 
+**Project board:** ()
+
 ![Am I Responsive screenshot](docs/amiresponsive.png)
 
 ---
@@ -54,6 +56,7 @@ The target audience is home cooks of all skill levels who want a simple, no-nons
 
 User stories were created in GitHub Issues using a custom user story template and tracked on a GitHub Projects kanban board. Each story was linked to project goals and moved through To Do, In Progress, and Done columns during development.
 
+
 | ID | User Story | MoSCoW |
 |----|-----------|--------|
 | 1 | As a visitor, I can view a list of published recipes so that I can browse what's available. | Must Have |
@@ -75,7 +78,7 @@ The project was managed using Agile methodology through GitHub Projects. A kanba
 
 MoSCoW prioritisation was applied to all user stories to ensure the most critical features (account registration, recipe CRUD, authentication) were delivered first. "Should Have" features like reviews and pagination were implemented once the core functionality was stable.
 
-The project board is publicly visible on the GitHub repository under the Projects tab.
+The  is publicly visible on the GitHub repository under the Projects tab.
 
 ### Wireframes
 
