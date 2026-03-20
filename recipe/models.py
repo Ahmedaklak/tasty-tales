@@ -33,20 +33,20 @@ class Recipe(models.Model):
     )
     status = models.IntegerField(
         choices=STATUS,
-        default=1
+        default=1  # Defaults to published so new recipes show up unless explicitly saved as draft.
     )
     created_on = models.DateTimeField(auto_now_add=True)
     updated_on = models.DateTimeField(auto_now=True)
 
     class Meta:
-        ordering = ['-created_on']
+        ordering = ['-created_on']  # Newest-first ordering is relied on by list/detail tests and UI expectations.
 
     def __str__(self):
         return self.title
 
     def save(self, *args, **kwargs):
         if not self.slug:
-            self.slug = slugify(self.title)
+            self.slug = slugify(self.title)  # Only auto-generate once so edited titles don't break existing URLs.
         super().save(*args, **kwargs)
 
 
@@ -83,7 +83,7 @@ class Review(models.Model):
     class Meta:
         ordering = ['-created_on']
         # Prevent a user from reviewing the same recipe twice
-        unique_together = ('recipe', 'author')
+        unique_together = ('recipe', 'author')  # DB-level guard to stop duplicate reviews even if view checks are bypassed.
 
     def __str__(self):
         return f'{self.author.username} rated {self.recipe.title} - {self.rating}/5'

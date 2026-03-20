@@ -12,7 +12,7 @@ class RecipeList(generic.ListView):
     """Display all published recipes on the home page."""
 
     model = Recipe
-    queryset = Recipe.objects.filter(status=1)
+    queryset = Recipe.objects.filter(status=1)  # status=1 is "Published", so drafts stay hidden from public listing.
     template_name = 'recipe/recipe_list.html'
     context_object_name = 'recipes'
     paginate_by = 6
@@ -34,7 +34,7 @@ class RecipeDetail(generic.DetailView):
                 author=self.request.user
             ).exists()
             if not has_reviewed:
-                context['review_form'] = ReviewForm()
+                context['review_form'] = ReviewForm()  # UI guard for one-review-per-user; DB constraint still enforces it.
         return context
 
 
@@ -47,7 +47,7 @@ class RecipeCreate(LoginRequiredMixin, generic.CreateView):
     success_url = reverse_lazy('home')
 
     def form_valid(self, form):
-        form.instance.author = self.request.user
+        form.instance.author = self.request.user  # Never trust client input for ownership.
         messages.success(
             self.request, 'Recipe created successfully!'
         )
@@ -64,11 +64,11 @@ class RecipeEdit(LoginRequiredMixin, UserPassesTestMixin,
 
     def test_func(self):
         recipe = self.get_object()
-        return self.request.user == recipe.author
+        return self.request.user == recipe.author  # UserPassesTestMixin returns 403 when this fails.
 
     def get_success_url(self):
         return reverse_lazy(
-            'recipe_detail', kwargs={'slug': self.object.slug}
+            'recipe_detail', kwargs={'slug': self.object.slug}  # Redirect to canonical detail URL after edit.
         )
 
     def form_valid(self, form):
@@ -106,12 +106,12 @@ def review_create(request, slug):
     # Prevent duplicate reviews
     if Review.objects.filter(recipe=recipe, author=request.user).exists():
         messages.warning(request, 'You have already reviewed this recipe.')
-        return redirect(reverse('recipe_detail', kwargs={'slug': slug}))
+        return redirect(reverse('recipe_detail', kwargs={'slug': slug}))  # Early exit avoids duplicate validation/save work.
 
     if request.method == 'POST':
         form = ReviewForm(request.POST)
         if form.is_valid():
-            review = form.save(commit=False)
+            review = form.save(commit=False)  # Need recipe/author first since they aren't form fields.
             review.recipe = recipe
             review.author = request.user
             review.save()
@@ -134,7 +134,7 @@ def review_delete(request, slug, review_id):
         return redirect(reverse('recipe_detail', kwargs={'slug': slug}))
 
     if request.method == 'POST':
-        review.delete()
+        review.delete()  # Keep destructive action POST-only to avoid accidental deletes from link prefetch/crawlers.
         messages.success(request, 'Review deleted successfully!')
 
     return redirect(reverse('recipe_detail', kwargs={'slug': slug}))

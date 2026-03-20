@@ -7,7 +7,7 @@ urlpatterns = [
         views.RecipeList.as_view(),
         name='home'
     ),
-        path(
+    path(
         'recipe/new/',
         views.RecipeCreate.as_view(),
         name='recipe_create'
@@ -35,6 +35,6 @@ urlpatterns = [
     path(
         'recipe/<slug:slug>/review/<int:review_id>/delete/',
         views.review_delete,
-        name='review_delete'
+        name='review_delete'  # review_id in URL avoids deleting "latest review" by mistake on concurrent pages.
     ),
 ]

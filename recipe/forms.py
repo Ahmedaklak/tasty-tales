@@ -14,11 +14,11 @@ class RecipeForm(forms.ModelForm):
             'instructions',
             'cooking_time',
             'servings',
-            'status',
+            'status',  # Exposed so authors can intentionally save drafts instead of auto-publishing.
         ]
         widgets = {
             'description': forms.Textarea(attrs={'rows': 3}),
-            'ingredients': forms.Textarea(attrs={'rows': 6}),
+            'ingredients': forms.Textarea(attrs={'rows': 6}),  # Bigger textarea makes multiline ingredient lists usable.
             'instructions': forms.Textarea(attrs={'rows': 8}),
         }
 
@@ -30,7 +30,7 @@ class ReviewForm(forms.ModelForm):
         model = Review
         fields = ['rating', 'body']
         widgets = {
-            'rating': forms.Select(attrs={'class': 'form-select'}),
+            'rating': forms.Select(attrs={'class': 'form-select'}),  # Forces Bootstrap styling since crispy config can vary by template.
             'body': forms.Textarea(attrs={
                 'rows': 4,
                 'placeholder': 'Share your thoughts on this recipe...',
@@ -38,5 +38,5 @@ class ReviewForm(forms.ModelForm):
         }
         labels = {
             'rating': 'Your Rating',
-            'body': 'Your Review',
+            'body': 'Your Review',  # Friendlier labels read better than raw model field names.
         }

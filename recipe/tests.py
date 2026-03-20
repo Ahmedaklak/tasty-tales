@@ -48,6 +48,7 @@ class RecipeModelTest(TestCase):
             status=1,
         )
         recipes = Recipe.objects.all()
+        # Relies on Recipe.Meta.ordering = ['-created_on'].
         self.assertEqual(recipes[0], second_recipe)
         self.assertEqual(recipes[1], self.recipe)
 
@@ -90,6 +91,7 @@ class ReviewModelTest(TestCase):
     def test_review_unique_together(self):
         """Test that a user cannot review the same recipe twice."""
         from django.db import IntegrityError
+        # DB-level unique_together should raise here, not silently overwrite.
         with self.assertRaises(IntegrityError):
             Review.objects.create(
                 recipe=self.recipe,
@@ -111,6 +113,7 @@ class ReviewModelTest(TestCase):
             body='Also good!',
         )
         reviews = Review.objects.all()
+        # Relies on Review.Meta.ordering = ['-created_on'].
         self.assertEqual(reviews[0], second_review)
         self.assertEqual(reviews[1], self.review)
 
@@ -157,6 +160,7 @@ class RecipeListViewTest(TestCase):
     def test_only_published_recipes_shown(self):
         """Test that draft recipes are not shown on the home page."""
         response = self.client.get(reverse('home'))
+        # View queryset filters status=1, so drafts should never render.
         self.assertContains(response, 'Published Recipe')
         self.assertNotContains(response, 'Draft Recipe')
 
@@ -214,6 +218,7 @@ class RecipeCreateViewTest(TestCase):
     def test_logged_out_user_cannot_create(self):
         """Test that anonymous users are redirected from the create page."""
         response = self.client.get(reverse('recipe_create'))
+        # LoginRequiredMixin should redirect anonymous users (usually 302).
         self.assertNotEqual(response.status_code, 200)
 
     def test_logged_in_user_can_access_create(self):
@@ -275,6 +280,7 @@ class RecipeEditDeleteViewTest(TestCase):
         response = self.client.get(
             reverse('recipe_edit', kwargs={'slug': self.recipe.slug})
         )
+        # UserPassesTestMixin denies non-owners with 403.
         self.assertEqual(response.status_code, 403)
 
     def test_author_can_delete(self):
@@ -332,6 +338,7 @@ class ReviewViewTest(TestCase):
             reverse('review_create', kwargs={'slug': self.recipe.slug}),
             {'rating': 4, 'body': 'Nice recipe!'}
         )
+        # login_required should block create and keep DB unchanged.
         self.assertEqual(Review.objects.count(), 0)
 
     def test_user_cannot_review_twice(self):
@@ -345,6 +352,7 @@ class ReviewViewTest(TestCase):
             reverse('review_create', kwargs={'slug': self.recipe.slug}),
             {'rating': 5, 'body': 'Second review'}
         )
+        # View guards against duplicates before hitting DB constraint.
         self.assertEqual(Review.objects.count(), 1)
 
     def test_review_author_can_delete_review(self):
