@@ -5,7 +5,7 @@ A full-stack recipe sharing web application built with Django. Users can registe
 
 **Live site:** [https://tasty-tales-01-5fd3b9eee72d.herokuapp.com/](https://tasty-tales-01-5fd3b9eee72d.herokuapp.com/)
 
-**Repository:** [https://github.com/YOUR-USERNAME/tasty-tales](https://github.com/YOUR-USERNAME/tasty-tales)
+**Repository:** [https://github.com/YOUR-USERNAME/tasty-tales](https://github.com/Ahmedaklak/tasty-tales)
 
 ![Am I Responsive screenshot](docs/amiresponsive.png)
 
