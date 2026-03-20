@@ -7,7 +7,7 @@ A full-stack recipe sharing web application built with Django. Users can registe
 
 **Repository:** [https://github.com/YOUR-USERNAME/tasty-tales](https://github.com/Ahmedaklak/tasty-tales)
 
-**Project board:** ()
+**Project board:** (https://github.com/users/Ahmedaklak/projects/7)
 
 ![Am I Responsive screenshot](docs/amiresponsive.png)
 
